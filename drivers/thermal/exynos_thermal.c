@@ -2178,6 +2178,8 @@ err_request_irq:
 err_get_irq:
 	kfree(data);
 
+err_clk:
+	clk_unprepare(data->clk);
 	return ret;
 }
 
@@ -2195,6 +2197,7 @@ static int exynos_tmu_remove(struct platform_device *pdev)
 	exynos_unregister_thermal();
 
 	platform_set_drvdata(pdev, NULL);
+	clk_unprepare(data->clk);
 
 	return 0;
 }
